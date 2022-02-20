@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RKXChatRoom</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script src="socket.io/socket.io.js"></script>
+</head>
+<body>
+    <main>
+        <nav class="side-info">
+            <div class="room-info">
+                <p class="room-name">
+                    Anônimo
+                </p>
+            </div>
+        </nav>
+        <div class="right-wrapper">
+            <div class="chat-container">
+                <div class="chat-messages">
+                    
+                </div>
+                <div class="chat-input">
+                    <input type="text" name="message-input" class="message-input" id="input-box-chat" placeholder="Type any message here" autocomplete="off" spellcheck="false">
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        var nameElement = document.getElementsByClassName("room-name")[0];
+        if(sessionStorage.getItem("username") === null){
+            nameElement.innerHTML = "@Anonimo";
+            window.location.reload()
+            sessionStorage.setItem("username", "Anonimo");
+        }else{
+            nameElement.innerHTML = "@" + sessionStorage.getItem("username");
+        }
+    </script>
+    <script src="room.js"></script>
+</body>
+</html>
