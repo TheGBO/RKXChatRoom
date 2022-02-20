@@ -13,7 +13,6 @@ socket.on('receive-message', (data) => {
 });
 
 socket.on('load-messages', (arr) => {
-    
     arr.forEach(element => {
         if(element !== null){
             createMessage(element);
