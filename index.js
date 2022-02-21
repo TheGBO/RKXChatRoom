@@ -4,6 +4,7 @@ const http = require('http');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 const sanitizer = require('sanitizer');
+require('dotenv').config({path:".env"});
 
 var messageArray = [{content:"Server started", name:"SERVER"}];
 
@@ -30,10 +31,13 @@ io.on('connection', (socket) => {
     let sendJoin = {content:"::Joined The Chat::", name:socket.id};
     io.emit('receive-message', sendJoin);
     messageArray.push(sendJoin);
+    io.emit('update-member-count', (io.engine.clientsCount));
+    console.log(io.sockets.length);
     socket.on('send-message', (data) => {
         sendData = {
             name:sanitizer.escape(data.name + ` ::(${socket.id})::`),
-            content:sanitizer.escape(data.content)
+            content:sanitizer.escape(data.content),
+            pfp:data.pfp
         }
         messageArray.push(sendData);
         io.emit('receive-message', sendData);
@@ -45,11 +49,12 @@ io.on('connection', (socket) => {
         let sendLeave = {content:"::Left The Chat::", name:socket.id};
         console.log(`Disconnected ${socket.id}`);
         io.emit('receive-message', sendLeave);
+        io.emit('update-member-count', (io.engine.clientsCount));
         messageArray.push(sendLeave);
     })
 });
 
 
 server.listen(process.env.PORT, () => {
-    console.log("running");
+    console.log("running " + process.env.PORT);
 });
