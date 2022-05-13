@@ -43,6 +43,17 @@ function sendMessage(e){
 
 function createMessage(data){
     var chatBox = document.getElementsByClassName("chat-messages")[0];
+    var matches = data.content.match(/\bhttps?:\/\/\S+/gi);
+    var embedThing = "";
+    if(matches){
+        var embedUrl = matches[0];
+    
+        console.log(checkUrlContentType(embedUrl));
+        embedThing = `<a href="${embedUrl}">${embedUrl}</a><br>`;
+        embedThing += `<img class="embed-image" src="${embedUrl}" alt=""></img><br>`;
+        console.log("image");
+    }
+
     chatBox.innerHTML += 
     `
     <div class="user-post">
@@ -50,9 +61,24 @@ function createMessage(data){
         <h1 class="user-name">${data.name}</h1>
         <p class="user-message">
             ${data.content}
+            <br>
+            ${embedThing}
         </p>
+
     </div>
     `;
     chatBox.scrollTop = chatBox.scrollHeight;
     
+}
+
+function checkUrlContentType(url){
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('HEAD', url);
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == this.DONE) {
+            console.log(this.status);
+            return this.getResponseHeader("Content-Type");
+        }
+    };
+    xhttp.send();
 }

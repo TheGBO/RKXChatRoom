@@ -126,3 +126,21 @@ main{
     height: 64px;
     border-radius: 50%;
 }
+
+.embed-image{
+    max-width: 350px;
+    border-radius: 1rem;
+}
+
+::-webkit-scrollbar {
+    scrollbar-color: #999 #333;
+    width: 10px; /* Mostly for vertical scrollbars */
+    height: 10px; /* Mostly for horizontal scrollbars */
+}
+::-webkit-scrollbar-thumb { /* Foreground */
+    background: #999;
+    cursor: grab;
+}
+::-webkit-scrollbar-track { /* Background */
+    background: #333;
+}
